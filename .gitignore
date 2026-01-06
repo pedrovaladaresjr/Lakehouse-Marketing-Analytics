@@ -1,0 +1,13 @@
+# Databricks artifacts
+.ipynb_checkpoints/
+
+# Data
+*.csv
+*.parquet
+*.delta
+
+# OS
+.DS_Store
+
+# JSON
+*.json
