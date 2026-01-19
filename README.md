@@ -5,13 +5,13 @@ star schema modeling and BI consuption using Databricks.
 
 ---
 
-## Project Overwiew
+## Project Overview
 
 This project demonstrates a complete Lakehouse architecture built from scratch,
 covering data generation, ingestion, transformation, dimensional modeling and BI consumption.
 
-
 The main goal is to simulate real-world data engineering challenges such as:
+
 - Poor data quality at the source
 - Schema enforcement
 - Deduplication
@@ -35,12 +35,22 @@ The main goal is to simulate real-world data engineering challenges such as:
 The pipeline follow a layered Lakehouse architecture, where each layer has a clear responsibility
 and no business rules are applied prematurely.
 
-Flow:
+---
+
+### Ingestion Metadata
+
+Due to Unity Catalog enforcement, file-level lineage is captured using
+`_metadata.file_path`, which replaces the legacy `input_file_name()` function.
+
+This enables full traceability and selective reprocessing at the file level.
+
+---
+
+### Flow
 
 `Data Sources` &rarr; `RAW` &rarr; `BRONZE` &rarr;  `SILVER` &rarr;  `GOLD` &rarr; `BI`
 
 ![Lakehouse Pipeline](docs/lakehouse_pipeline.png)
-
 
 ### **RAW Layer**
 
@@ -95,7 +105,6 @@ campaign + date + channel + country
 - Power BI / Tableau (consumption)
 
 ---
-
 
 ## How to Run
 
