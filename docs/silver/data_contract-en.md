@@ -64,3 +64,9 @@ To represent unique, consistent, and reliable users.
 
 * **Rule:** keep the most recent record per user_id
 * **Criterion:** highest `created_at`
+
+---
+
+## ENTITY: CAMPAIGNS
+
+...

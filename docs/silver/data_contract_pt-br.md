@@ -65,3 +65,8 @@ Representar usuários únicos, consistentes e confiáveis.
 * **Regra:** manter o registro mais recente por user_id
 * **Critério:** maior `created_at` 
 
+---
+
+## ENTIDADE: CAMPAIGNS
+
+...
