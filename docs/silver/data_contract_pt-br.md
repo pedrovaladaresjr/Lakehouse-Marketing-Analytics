@@ -1,4 +1,4 @@
-# **SILVER LAYER - Contrato de Dados & Regras de Transformações**
+# **CAMADA SILVER - Contrato de Dados & Regras de Transformação**
 
 ---
 
@@ -62,11 +62,131 @@ Representar usuários únicos, consistentes e confiáveis.
 
 **Deduplicação**
 
-* **Regra:** manter o registro mais recente por user_id
-* **Critério:** maior `created_at` 
+* **Regra:** Manter o registro mais recente por `user_id`
+* **Critério:** Maior `created_at` 
 
 ---
 
 ## ENTIDADE: CAMPAIGNS
 
-...
+#### Finalidade
+
+Representar campanhas válidas no tempo e canal.
+
+#### Esquema Canônico
+
+|    Campo      |   Tipo    |  Obrigatório |            Regra           |
+| :-------------|:--------- |:------------:|:--------------------------:| 
+| campaign_id   | string    |      sim     |      Identificador         |
+| campaign_name | string    |      não     |            Trim            |
+| channel       | string    |      sim     |         Normalizado        |
+| start_date    | date      |      sim     |        <= end_date         |
+| end_date      | date      |      sim     |        >= start_date       |
+| source_file   | string    |      sim     |       Rastreabilidade      |
+
+
+#### Regras de Transformação
+
+**Tipagem**
+
+* `start_date`, `end_date` &rarr; **`date`**
+
+**Normalização**
+
+* Canais:
+    * facebook, meta &rarr; **`FACEBOOK`**
+    * google, adwords &rarr; **`GOOGLE`**
+    * outros &rarr; **`OTHER`**
+
+**Validação**
+
+* Remover campanhas com `start_date > end_date`
+* Remover `campaign_id` nulos
+
+**Deduplicação**
+
+* **Regra:** Manter o registro mais recente por `campaign_id`
+* **Critério:** Maior `ingestion_timestamp`
+
+---
+
+## ENTIDADE: EVENTS
+
+#### Finalidade
+
+Eventos comportamentais de usuários.
+
+#### Esquema Canônico
+
+|    Campos     |   Tipo    |   Obrigatório|            Regra           |
+| :-------------|:--------- |:------------:|:--------------------------:| 
+| event_id      | string    |      sim     | Identificador único evento |
+| user_id       | string    |      sim     |      Deve existir          |
+| event_type    | string    |      sim     |     Controlado por Enum    |
+|event_timestamp| timestamp |      sim     |      Timestamp válido      |
+| source_file   | string    |      sim     |       Rastreabilidade      |
+
+#### Regras de Transformação
+
+**Tipagem**
+
+* `event_timestamp` &rarr; **`timestamp`**
+
+**Normalização**
+
+* Tipos de `event_type` permitidos:
+    * **VIEW**
+    * **CLICK**
+    * **PURCHASE**
+
+**Validação**
+
+* Remover eventos sem `user_id`
+* Remover eventos fora do enum
+
+**Deduplicação**
+
+* Não aplicável (evento é atômico)
+
+---
+
+## ENTIDADE: CONVERSIONS
+
+#### Finalidade
+
+Conversões financeiras aplicadas de usuários.
+
+#### Esquema Canônico
+
+|    Campos     |   Tipo    |   Obrigatório|            Regra           |
+| :-------------|:--------- |:------------:|:--------------------------:| 
+| conversion_id | string    |      sim     |        Identificador       |
+| user_id       | string    |      sim     |        Deve existir        |
+| revenue       | decimal(10,2)|   sim     |            >= 0            |
+|conversion_date| date      |      sim     |        Data válida         |
+| source_file   | string    |      sim     |       Rastreabilidade      |
+
+#### Regras de Transformação
+
+**Tipagem**
+
+* `conversion_date` &rarr; **`date`**
+* `revenue` &rarr; **`decimal(10, 2)`**
+
+**Validação**
+
+* Remover `revenue < 0`
+* Remover `user_id` nulos
+
+**Deduplicação**
+
+* **Regra:** Manter o registro mais recente por `conversion_id`
+
+---
+
+## GOVERNANÇA
+
+* Qualquer alteração nestes documentos requer:
+
+    * Commit separado
+    * Ajuste correspondente no código
