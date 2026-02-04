@@ -94,9 +94,9 @@ Representar campanhas válidas no tempo e canal.
 **Normalização**
 
 * Canais:
-    * facebook, meta &rarr; **`FACEBOOK`**
-    * google, adwords &rarr; **`GOOGLE`**
-    * outros &rarr; **`OTHER`**
+    * e-mail &rarr; **`EMAIL`**
+    * social &rarr; **`SOCIAL`**
+    * others &rarr; **`OTHER`**
 
 **Validação**
 
