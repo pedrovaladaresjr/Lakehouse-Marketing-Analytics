@@ -93,8 +93,8 @@ Represent the valid campaigns in time and channel
 
 * Channels:
 
-    * facebook - meta &rarr; **`FACEBOOK`**
-    * google, adwords &rarr; **`GOOGLE`**
+    * e-mail &rarr; **`EMAIL`**
+    * social &rarr; **`SOCIAL`**
     * others &rarr; **`OTHER`**
 
 **Validation**
@@ -104,7 +104,7 @@ Represent the valid campaigns in time and channel
 
 **Deduplication**
 
-* Role: keep the most recent register per `campain_id`
+* Role: keep the most recent register per `campaing_id`
 * Criterion: higher `ingestion_timestamp`
 
 
