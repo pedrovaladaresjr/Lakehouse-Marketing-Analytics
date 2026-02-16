@@ -118,13 +118,15 @@ Eventos comportamentais de usuários.
 
 #### Esquema Canônico
 
-|    Campos     |   Tipo    |   Obrigatório|            Regra           |
-| :-------------|:--------- |:------------:|:--------------------------:| 
-| event_id      | string    |      sim     | Identificador único evento |
-| user_id       | string    |      sim     |      Deve existir          |
-| event_type    | string    |      sim     |     Controlado por Enum    |
-|event_timestamp| timestamp |      sim     |      Timestamp válido      |
-| source_file   | string    |      sim     |       Rastreabilidade      |
+|    Fields           |   Type    |   Required   |            Rule            |
+| :-------------------|:--------- |:------------:|:--------------------------:| 
+| event_id            | string    |      yes     |   Unique events identifier |
+| user_id             | string    |      yes     |            should exist    |
+| campaign_id         | string    |    optional  |            should exist    |
+| event_type          | string    |      yes     |        Enum controlled     |
+| event_timestamp     | timestamp |      yes     |        valid Timestamp     |
+| source_file         | string    |      yes     |         Traceability       |
+| ingestion_timestamp | timestamp |      yes     |         valid Timestamp    |
 
 #### Regras de Transformação
 
@@ -134,7 +136,7 @@ Eventos comportamentais de usuários.
 
 **Normalização**
 
-* Tipos de `event_type` permitidos:
+* Tipos de `event_type` permitidos (Upper + Trim):
     * **VIEW**
     * **CLICK**
     * **PURCHASE**

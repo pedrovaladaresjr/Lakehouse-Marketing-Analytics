@@ -117,14 +117,15 @@ Behavioral events of users.
 
 #### Canonical Schema
 
-|    Fields     |   Type    |   Required   |            Rule            |
-| :-------------|:--------- |:------------:|:--------------------------:| 
-| event_id      | string    |      yes     |   Unique events identifier |
-| user_id       | string    |      yes     |            should exist    |
-| event_type    | string    |      yes     |        Enum controlled     |
-|event_timestamp| timestamp |      yes     |        valid Timestamp     |
-| source_file   | string    |      yes     |         Traceability       |
-
+|    Fields           |   Type    |   Required   |            Rule            |
+| :-------------------|:--------- |:------------:|:--------------------------:| 
+| event_id            | string    |      yes     |   Unique events identifier |
+| user_id             | string    |      yes     |            should exist    |
+| campaign_id         | string    |    optional  |            should exist    |
+| event_type          | string    |      yes     |        Enum controlled     |
+| event_timestamp     | timestamp |      yes     |        valid Timestamp     |
+| source_file         | string    |      yes     |         Traceability       |
+| ingestion_timestamp | timestamp |      yes     |         valid Timestamp    |
 
 
 #### Transformation Rules
@@ -135,7 +136,7 @@ Behavioral events of users.
 
 **Normalization**
 
-* `event_type` allowed:
+* `event_type` allowed (Upper + Trim):
 
     * **VIEW**
     * **CLICK**
