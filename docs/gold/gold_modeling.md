@@ -43,7 +43,7 @@ A camada gold deve permitir que as partes interessadas respondam a perguntas est
 - Quantos CLIQUES se tornam em uma COMPRA?
 - Qual é a taxa de conversão do funil?
 
-## Análse de Receita
+## Análise de Receita
 
 - Receita por campanhas
 - Receita por canal
