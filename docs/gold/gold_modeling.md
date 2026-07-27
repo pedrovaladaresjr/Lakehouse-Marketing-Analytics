@@ -70,8 +70,10 @@ A Camada Gold está organizada usando o Schema Estrela (Star Schema).
         |-------------|
         | user_sk     |
         | user_id     |
+        | email       |
         | country     |
         | signup_date |
+        | created_at  |
 
 
 ###### dim_campaign
@@ -126,9 +128,12 @@ A Camada Gold está organizada usando o Schema Estrela (Star Schema).
 
         | Colunas      |
         |--------------|
+        | event_id     |
         | user_sk      |
         | campaign_sk  |
         | date_sk      |
+        | event_type   |
+        | event_timestamp |
 
     - **Medidas**
 
@@ -151,9 +156,12 @@ A Camada Gold está organizada usando o Schema Estrela (Star Schema).
 
         | Coluna |
         |---------|
+        | conversion_id |
         | user_sk |
         | campaign_sk |
         | date_sk |
+        | conversion_date |
+        | revenue  |
 
     - **Medidas:**
 
@@ -171,18 +179,41 @@ A Camada Gold está organizada usando o Schema Estrela (Star Schema).
 # Diagrama Star Schema
 
 
-                                                dim_user
-                                                    |
-                                                    |
-                                                    |
-                                                    |
-                            dim_date ------ fact_events ------ dim_campaign
-
-                            dim_date --- fact_conversions --- dim_campaign
-                                                    |
-                                                    |
-                                                dim_user
-
+                                                ┌──────────────┐
+                                                │   dim_user   │
+                                                │──────────────│
+                                                │ user_sk      │
+                                                │ user_id      │
+                                                │ email        │
+                                                │ country      │
+                                                │ signup_date  │
+                                                └──────┬───────┘
+                                                       │
+                                                       │
+                        ┌──────────────┐         ┌─────▼──────┐         ┌─────────────────┐
+                        │  dim_date    │────────▶│fact_events │◀────────│  dim_campaign   │
+                        │──────────────│         │────────────│         │─────────────────│
+                        │ date_sk      │         │ event_sk   │         │ campaign_sk     │
+                        │ date         │         │ event_id   │         │ campaign_id     │
+                        │ year         │         │ user_sk    │         │ campaign_name   │
+                        │ month        │         │ campaign_sk│         │ channel         │
+                        │ quarter      │         │ date_sk    │         │ start_date      │
+                        └──────┬───────┘         │ event_type │         │ end_date        │
+                               │                 │ event_count│         └─────────────────┘
+                               │                 └────────────┘
+                               │
+                               │
+                               │                 ┌──────────────────┐
+                               └────────────────▶│fact_conversions  │◀──────── dim_campaign
+                                                 │──────────────────│
+                                                 │ conversion_sk    │
+                                                 │ conversion_id    │
+                                                 │ user_sk          │
+                                                 │ campaign_sk      │
+                                                 │ date_sk          │
+                                                 │ revenue          │
+                                                 │ conversion_count │
+                                                 └──────────────────┘
 ---
 
 # Indicadores de Negócio (KPIs)
