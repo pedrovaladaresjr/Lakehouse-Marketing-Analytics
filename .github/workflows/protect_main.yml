@@ -1,19 +1,19 @@
 name: Proteger Branch Main
 
-# Define o gatilho
 on:
   pull_request:
     branches:
       - main
 
-# Tarefas
 jobs:
   check-source-branch:
     runs-on: ubuntu-latest
     steps:
       - name: Checa se a branch é a develop
-        # github.head_ref é o nome da branch a mergear
-        if: github.head_ref != 'develop'
         run: |
-          echo "Error: You can only merge into main from the develop branch!"
-          exit 1 # Comando que faz a ação falhar
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "Error: You can only merge into main from the develop branch!"
+            exit 1
+          else
+            echo "Branch de origem válida: develop"
+          fi
