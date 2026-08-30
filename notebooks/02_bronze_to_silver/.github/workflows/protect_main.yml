@@ -1,0 +1,21 @@
+name: Proteger Branch Main
+
+# Define o gatilho: roda quando um Pull Request é aberto/atualizado tendo 'main' como destino
+on:
+  pull_request:
+    branches:
+      - main
+
+# Tarefas de validação
+jobs:
+  check-source-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checa se a branch de origem é a develop
+        run: |
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "Error: You can only merge into main from the develop branch!"
+            exit 1
+          else
+            echo "Branch de origem válida: develop"
+          fi
