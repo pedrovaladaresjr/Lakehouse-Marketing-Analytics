@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "5"
+# ///
 # MAGIC %md
 # MAGIC # Users Silver
 # MAGIC ---
@@ -205,7 +209,7 @@ df_rejected = df_dedup.filter(F.col("rejection_reason").isNotNull())
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE SCHEMA IF NOT EXISTS main.silver_marketing;
+# MAGIC CREATE SCHEMA IF NOT EXISTS main.lakehouse_marketing_silver;
 # MAGIC CREATE SCHEMA IF NOT EXISTS main.governance_marketing;
 
 # COMMAND ----------
@@ -214,7 +218,7 @@ df_rejected = df_dedup.filter(F.col("rejection_reason").isNotNull())
 df_valid.write\
         .format("delta")\
         .mode("overwrite")\
-        .saveAsTable("main.silver_marketing.users")
+        .saveAsTable("main.lakehouse_marketing_silver.users")
 
 
 # Resultados Rejeitados
@@ -231,7 +235,7 @@ df_rejected.write\
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SHOW TABLES IN main.silver_marketing;
+# MAGIC SHOW TABLES IN main.lakehouse_marketing_silver;
 
 # COMMAND ----------
 
