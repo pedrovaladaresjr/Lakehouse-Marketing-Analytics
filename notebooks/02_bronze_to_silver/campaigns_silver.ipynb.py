@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "5"
+# ///
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
@@ -111,7 +115,7 @@ df_rejected = df_dedup.filter(F.col("rejection_reason").isNotNull())
 df_valid.write\
     .format("delta")\
     .mode("overwrite")\
-    .saveAsTable("main.silver_marketing.campaigns")
+    .saveAsTable("main.lakehouse_marketing_silver.campaigns")
 
 # Resultados Rejeitados
 df_rejected.write\
@@ -134,4 +138,4 @@ df_rejected.write\
 # MAGIC %sql
 # MAGIC SELECT
 # MAGIC     COUNT(*) AS total_registros
-# MAGIC FROM main.silver_marketing.campaigns
+# MAGIC FROM main.lakehouse_marketing_silver.campaigns
